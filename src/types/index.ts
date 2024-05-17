@@ -1,3 +1,10 @@
+export type MessageData = {
+  image?: string;
+  audio?: string;
+};
+
+export type MediaType = "image/jpeg" | "audio/mpeg";
+
 export type MediaData = {
   data: string;
   mimeType: string;

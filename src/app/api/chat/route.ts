@@ -10,14 +10,10 @@ import {
 
 import { visionRequestSchema } from "@/lib/validate/vision-request-schema";
 
-import { sanitizeContent } from "@/lib/sanitize-content";
-
 export const runtime = "edge";
 
 export async function POST(req: Request) {
   const parseResult = visionRequestSchema.safeParse(await req.json());
-
-  //   console.log("parseResult ===>", parseResult);
 
   if (!parseResult.success) {
     // If validation fails, return a 400 Bad Request response

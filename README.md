@@ -1,8 +1,10 @@
 # Gemini 1.5 Multimodel Chat / Next js
 
-This project is a simple web app for using the Google Gemini 1.5 model
+This project is a simple web app for using the Google Gemini 1.5 model.
 
-I created this to help others building apps with Gemini 1.5. If you find it helpful, please give a ⭐
+User input can be either text, image or audio through the client's microphone.
+
+### I created this to help others building apps with Gemini 1.5. If you find it helpful, please give a ⭐
 
 ## Getting Started
 
@@ -11,7 +13,7 @@ Visit [Google AI](https://ai.google.dev/) for your AI API key
 Create a `.env.local` file and add your api key
 
 ```
-OPENAI_API_KEY=
+GOOGLE_API_KEY=
 
 ```
 
