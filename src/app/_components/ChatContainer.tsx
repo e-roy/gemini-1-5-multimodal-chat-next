@@ -75,7 +75,7 @@ export const ChatContainer: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-[95vh]">
+    <div className="flex flex-col h-[90vh] md:h-[95vh]">
       <div className="flex flex-col flex-1 overflow-hidden">
         {messages.length > 0 && (
           <div className="flex p-4">
