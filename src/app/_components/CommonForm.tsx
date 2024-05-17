@@ -50,11 +50,10 @@ export const CommonForm: React.FC<CommonFormProps> = ({
       if (event.key === "Enter" && !event.ctrlKey && !event.shiftKey) {
         event.preventDefault();
         if (textareaRef.current) {
-          onFormSubmit &&
-            onFormSubmit(
-              event as unknown as FormEvent<HTMLFormElement>,
-              [imageFile, audioFile].filter(Boolean) as File[]
-            );
+          onFormSubmit?.(
+            event as unknown as FormEvent<HTMLFormElement>,
+            [imageFile, audioFile].filter(Boolean) as File[]
+          );
         }
       } else if (event.key === "Enter") {
         event.preventDefault();
@@ -92,8 +91,8 @@ export const CommonForm: React.FC<CommonFormProps> = ({
   const resetTextareaHeight = useCallback(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "2.6rem";
+      setTextareaHeight("2.6rem");
     }
-    setTextareaHeight("2.6rem");
   }, []);
 
   const adjustTextareaHeight = (target: HTMLTextAreaElement) => {
@@ -120,17 +119,18 @@ export const CommonForm: React.FC<CommonFormProps> = ({
     accept: {
       "image/jpeg": [],
       "image/png": [],
-      // "video/mp4": [],
     },
     multiple: false,
     noClick: true,
   });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onFormSubmit &&
-      onFormSubmit(e, [imageFile, audioFile].filter(Boolean) as File[]);
-  };
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      onFormSubmit?.(e, [imageFile, audioFile].filter(Boolean) as File[]);
+    },
+    [onFormSubmit, imageFile, audioFile]
+  );
 
   useEffect(() => {
     if (!loading) {
@@ -138,7 +138,7 @@ export const CommonForm: React.FC<CommonFormProps> = ({
       setImagePreviewUrl(null);
       setAudioFile(null);
       resetTextareaHeight();
-      if (onResetForm) onResetForm();
+      onResetForm?.();
     }
   }, [loading, onResetForm, resetTextareaHeight]);
 
@@ -159,14 +159,11 @@ export const CommonForm: React.FC<CommonFormProps> = ({
         type: "audio/mp3",
       });
       setAudioFile(audioFile);
-      const url = URL.createObjectURL(blob);
 
       setTimeout(() => {
-        if (formRef.current) {
-          formRef.current.dispatchEvent(
-            new Event("submit", { bubbles: true, cancelable: true })
-          );
-        }
+        formRef.current?.dispatchEvent(
+          new Event("submit", { bubbles: true, cancelable: true })
+        );
       }, 100);
     } catch (error) {
       console.error(error);
@@ -183,22 +180,22 @@ export const CommonForm: React.FC<CommonFormProps> = ({
         <input {...getInputProps()} className="hidden" />
         <div className="flex space-x-4">
           <div className="my-auto space-x-4">
-            <Button type="button" size={`icon`} onClick={open}>
+            <Button type="button" size="icon" onClick={open}>
               <ImageIcon />
             </Button>
             {recording ? (
               <Button
-                type={`button`}
-                size={`icon`}
-                className={`bg-red-500`}
+                type="button"
+                size="icon"
+                className="bg-red-500"
                 onClick={stopRecording}
               >
                 <StopCircle />
               </Button>
             ) : (
               <Button
-                type={`button`}
-                size={`icon`}
+                type="button"
+                size="icon"
                 className="bg-[#00923a] dark:hover:bg-primary/20"
                 onClick={startRecording}
               >
@@ -218,7 +215,7 @@ export const CommonForm: React.FC<CommonFormProps> = ({
             className="flex-1 p-2 resize-none min-h-8 rounded max-h-[50vh] border"
             placeholder="Chat with Gemini 1.5"
           />
-          <Button type="submit" variant="icon" size={`icon`} disabled={loading}>
+          <Button type="submit" variant="icon" size="icon" disabled={loading}>
             {loading ? (
               <Loader className="animate-spin" />
             ) : (
