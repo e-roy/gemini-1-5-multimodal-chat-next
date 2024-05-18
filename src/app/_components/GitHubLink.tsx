@@ -3,7 +3,7 @@
 export const GitHubLink = () => {
   return (
     <a
-      href="https://github.com/e-roy/gemini-1-5-multimodel-chat-next"
+      href="https://github.com/e-roy/gemini-1-5-multimodal-chat-next"
       aria-label="View source on GitHub"
       target="_blank"
       rel="noopener noreferrer"
